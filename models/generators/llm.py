@@ -48,7 +48,7 @@ class LLM(Generator):
                            max_length=max_length,
                            use_middle_truncation=use_middle_truncation)
         # check type of gpu: if not A100 then change attn implementation to sdpa
-        if "A100" not in torch.cuda.get_device_name(torch.cuda.current_device):
+        if torch.cuda.is_available() and "A100" not in torch.cuda.get_device_name(torch.cuda.current_device):
             attn_implementation="sdpa"
             
         self.quantization = quantization
